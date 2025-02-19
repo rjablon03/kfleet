@@ -6,8 +6,10 @@ function App() {
     <>
       <Header />
       
-      <div className="body-container flex justify-center">
-        <VehicleCollection />
+      <div className="body-container flex flex-col items-center">
+        <VehicleCollection title='Available Vehicles'/>
+        <VehicleCollection title='Unavailable Vehicles'/>
+        <VehicleCollection title='In The Shop'/>
       </div>
     </>
   )
