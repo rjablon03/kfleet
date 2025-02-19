@@ -1,17 +1,13 @@
-import Header from "./components/Header"
-import VehicleCollection from "./components/VehicleCollection"
+import { Routes, Route } from "react-router";
+import Home from "./components/pages/Home";
+import VehicleManager from "./components/pages/VehicleManager";
 
 function App() {
   return (
-    <>
-      <Header />
-      
-      <div className="body-container flex flex-col items-center">
-        <VehicleCollection title='Available Vehicles'/>
-        <VehicleCollection title='Unavailable Vehicles'/>
-        <VehicleCollection title='In The Shop'/>
-      </div>
-    </>
+    <Routes>
+      <Route path='/' element={<Home />}></Route>
+      <Route path='/vehicle-manager' element={<VehicleManager />}></Route>
+    </Routes>
   )
 }
 
