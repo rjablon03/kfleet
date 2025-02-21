@@ -1,18 +1,13 @@
 import Header from "../Header"
-import CreateVehicle from "../CreateVehicle"
+import VehicleTable from "../VehicleTable"
 
 function VehicleManager() {
     return (
         <>
             <Header />
             
-            <div className="vehicles-container flex flex-wrap justify-evenly gap-5 my-5">
-                <CreateVehicle />
-                <CreateVehicle />
-                <CreateVehicle />
-                <CreateVehicle />
-                <CreateVehicle />
-                <CreateVehicle />
+            <div className="table-container w-[90%] bg-white shadow-xl p-4 rounded-md my-5 mx-auto flex justify-center">
+                <VehicleTable />
             </div>
         </>
     )
