@@ -6,7 +6,8 @@ function Header() {
             <Link to="/"><h1 className="text-white text-4xl font-bold p-2">K-fleet</h1></Link>
             <p className="md:hidden">Mobile</p>
             <p className="hidden md:block lg:hidden">Tablet</p>
-            <p className="hidden lg:block">Desktop</p>
+            <p className="hidden lg:block xl:hidden">Desktop</p>
+            <p className="hidden xl:block">Larger</p>
 
             <nav className="hidden lg:block text-white text-lg font-bold p-4">
                 <ul className="flex gap-10">

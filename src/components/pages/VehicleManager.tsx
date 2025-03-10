@@ -6,7 +6,7 @@ function VehicleManager() {
         <>
             <Header />
             
-            <div className="table-container w-[90%] bg-white shadow-xl p-4 rounded-md my-5 mx-auto flex justify-center">
+            <div className="table-container w-[90%] bg-white shadow-xl p-4 rounded-md my-5 mx-auto">
                 <VehicleTable />
             </div>
         </>
