@@ -36,15 +36,15 @@ function VehicleTable() {
     }, []);
 
     return(
-        <table className="border-separate w-full text-left border-spacing-y-1.5">
+        <table className="border-separate w-[95%] m-auto text-left border-spacing-y-1.5">
             <thead>
                 <tr className="">
-                    <th className="text-xl">Make</th>
-                    <th className="text-xl">Model</th>
+                    <th></th>
+                    <th className="text-xl">Car Make</th>
+                    <th className="text-xl"> Car Model</th>
                     <th className="text-xl">Year</th>
                     <th className="text-xl">Body Style</th>
                     <th className="text-xl">Mileage</th>
-                    <th className="text-xl">Miles Per Year</th>
                     <th className="text-xl">Fuel Type</th>
                     <th className="text-xl">Needs Repair</th>
                 </tr>
@@ -52,20 +52,16 @@ function VehicleTable() {
             <tbody>
                 {vehicles.map((vehicle) => (
                     <tr key={vehicle.id}>
+                        <td>
+                            <input type="checkbox" />
+                        </td>
                         <td>{vehicle.make}</td>
                         <td>{vehicle.model}</td>
                         <td>{vehicle.year}</td>
                         <td>{vehicle.bodyStyle}</td>
                         <td>{vehicle.mileage}</td>
-                        <td>{vehicle.milesPerYear}</td>
                         <td>{vehicle.fuelType}</td>
                         <td>{vehicle.needsRepair ? 'Yes' : 'No'}</td>
-                        <td>
-                            <div className="buttons">
-                                <button>Info</button>
-                                <button>Delete</button>
-                            </div>
-                        </td>
                     </tr>
                 ))}
             </tbody>
