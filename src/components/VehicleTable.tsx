@@ -96,7 +96,7 @@ function VehicleTable() {
                     ))}
                 </tbody>
             </table>
-            <button className="delete-vehicles bg-red-500 p-1 rounded-md text-white font-bold mt-4" onClick={deleteVehicles}>Delete Vehicles</button>
+            {removeVehicles.length > 0 && (<button className="delete-vehicles bg-red-500 p-1 rounded-md text-white font-bold mt-4" onClick={deleteVehicles}>Delete Vehicles</button>)}
         </>
     )
 }
