@@ -1,12 +1,13 @@
 import Header from "../Header"
 import VehicleTable from "../VehicleTable"
+import AddVehicle from "../AddVehicle"
 
 function VehicleManager() {
     return (
         <>
             <Header />
-            
-            <div className="table-container w-[90%] bg-white shadow-xl p-4 rounded-md my-5 mx-auto">
+            <AddVehicle />
+            <div className="table-container w-[90%] bg-white shadow-xl p-4 rounded-md mx-auto">
                 <VehicleTable />
             </div>
         </>
