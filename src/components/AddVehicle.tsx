@@ -1,4 +1,5 @@
 import { useState } from "react"
+//import { db } from '../config/firebase'
 
 function AddVehicle() {
     const [open, setOpen] = useState(false)
@@ -12,7 +13,7 @@ function AddVehicle() {
     }
 
     const createVehicle = async () => {
-        // import db and write create code
+        
     }
 
     return (

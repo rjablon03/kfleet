@@ -1,4 +1,5 @@
 import { Link } from "react-router"
+import LogoutBtn from "./LogoutBtn"
 
 function Header() {
     return(
@@ -15,6 +16,7 @@ function Header() {
                     <Link to="/">My Trips</Link>
                     <Link to="/vehicle-manager">Vehicle Manager</Link>
                     <Link to="/">Analytics</Link>
+                    <LogoutBtn />
                 </ul>
             </nav>
         </header>
