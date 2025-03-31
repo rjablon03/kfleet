@@ -24,6 +24,7 @@ function VehicleTable() {
                         milesPerYear: data.milesPerYear,
                         fuelType: data.fuelType,
                         needsRepair: data.needsRepair,
+                        available: data.available
                     };
                     vehicleList.push(vehicle);
                 });
