@@ -64,7 +64,7 @@ function VehicleTable() {
 
     return(
         <>
-            <table className="border-separate w-[95%] m-auto text-left border-spacing-y-1.5">
+            <table className="border-separate w-[95%] m-auto text-left border-spacing-y-4">
                 <thead>
                     <tr className="">
                         <th></th>
@@ -93,6 +93,7 @@ function VehicleTable() {
                             <td>{vehicle.mileage}</td>
                             <td>{vehicle.fuelType}</td>
                             <td>{vehicle.needsRepair ? 'Yes' : 'No'}</td>
+                            <td><a className='bg-sky-700 text-white font-bold p-2 rounded-xl'>Edit</a></td>
                         </tr>
                     ))}
                 </tbody>

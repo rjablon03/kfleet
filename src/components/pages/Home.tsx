@@ -9,7 +9,6 @@ function Home() {
             <div className="collection-container flex flex-col items-center">
                 <VehicleCollection title="Available"/>
                 <VehicleCollection title="Unavailable"/>
-                <VehicleCollection title="In Shop"/>
             </div>
         </>
     )
