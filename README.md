@@ -4,6 +4,6 @@ This application makes the process much simpler. There is a clear view of which 
 
 This application was my CIS-371 final project at GVSU. The scope was kept small so that I could complete the application over the course of the semester. I would like to add features such as navigation tools and an email service that sends users notifications when they have an overdue check-out.
 
-The tools I used to build this project are Vite, React, Typescript, and Tailwind. The application was deployed on Vercel and uses one of their database providers for all of its data needs. Carbon estimates were made using the Carbon Interface API linked below.
+The tools I used to build this project are Vite, React, Typescript, and Tailwind. The application was deployed on Vercel and uses Firebase for it's data needs. Carbon estimates were made using the Carbon Interface API linked below. Authentication is provided through the Auth0 platform.
 
 https://docs.carboninterface.com/#/?id=introduction
