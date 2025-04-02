@@ -2,6 +2,7 @@ import { db } from '../config/firebase'
 import { getDocs, collection, doc, deleteDoc } from 'firebase/firestore'
 import { Vehicle } from '../models/Vehicle'
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router';
 
 function VehicleTable() {
     const [vehicles, setVehicles] = useState<Vehicle[]>([]);
@@ -14,18 +15,19 @@ function VehicleTable() {
                 const vehicleList: Vehicle[] = [];
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
-                    const vehicle: Vehicle = {
-                        id: doc.id, 
-                        make: data.make,
-                        model: data.model,
-                        year: data.year,
-                        bodyStyle: data.bodyStyle,
-                        mileage: data.mileage,
-                        milesPerYear: data.milesPerYear,
-                        fuelType: data.fuelType,
-                        needsRepair: data.needsRepair,
-                        available: data.available
-                    };
+                    // Create a new Vehicle instance using the class constructor
+                    const vehicle = new Vehicle(
+                        doc.id, 
+                        data.make,
+                        data.model,
+                        data.year,
+                        data.bodyStyle,
+                        data.mileage,
+                        data.milesPerYear,
+                        data.fuelType,
+                        data.needsRepair,
+                        data.available
+                    );
                     vehicleList.push(vehicle);
                 });
                 setVehicles(vehicleList);
@@ -93,7 +95,7 @@ function VehicleTable() {
                             <td>{vehicle.mileage}</td>
                             <td>{vehicle.fuelType}</td>
                             <td>{vehicle.needsRepair ? 'Yes' : 'No'}</td>
-                            <td><a className='bg-sky-700 text-white font-bold p-2 rounded-xl'>Edit</a></td>
+                            <td><Link to={"/vehicle-manager/edit-vehicle/" + vehicle.id} state={{vehicle}} className='bg-sky-700 text-white font-bold p-2 rounded-xl'>Edit</Link></td>
                         </tr>
                     ))}
                 </tbody>

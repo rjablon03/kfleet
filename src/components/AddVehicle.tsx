@@ -77,7 +77,13 @@ function AddVehicle() {
 
                             <div>
                                 <label htmlFor="bodyStyle" className="block text-sm font-medium">Body Style</label>
-                                <input type="text" name="bodyStyle" id="bodyStyle" className="mt-1 block w-full border rounded-md p-2" required />
+                                <select name="bodyStyle" id="bodyStyle" className="mt-1 block w-full border rounded-md p-2" required>
+                                    <option value="">--Please choose an option--</option>
+                                    <option value="Sedan">Sedan</option>
+                                    <option value="SUV">SUV</option>
+                                    <option value="Truck">Truck</option>
+                                    <option value="Van">Van</option>
+                                </select>
                             </div>
 
                             <div>
@@ -88,6 +94,7 @@ function AddVehicle() {
                             <div>
                                 <label htmlFor="fuelType" className="block text-sm font-medium">Fuel Type</label>
                                 <select name="fuelType" id="fuelType" className="mt-1 block w-full border rounded-md p-2" required>
+                                    <option value="">--Please choose an option--</option>
                                     <option value="Gas">Gas</option>
                                     <option value="Diesel">Diesel</option>
                                     <option value="Electric">Electric</option>
@@ -97,6 +104,7 @@ function AddVehicle() {
                             <div>
                                 <label htmlFor="needsRepair" className="block text-sm font-medium">Needs Repair</label>
                                 <select name="needsRepair" id="needsRepair" className="mt-1 block w-full border rounded-md p-2" required>
+                                    <option value="">--Please choose an option--</option>
                                     <option value="no">No</option>
                                     <option value="yes">Yes</option>
                                 </select>
