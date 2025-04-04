@@ -4,6 +4,7 @@ import Home from "./components/pages/Home";
 import VehicleManager from "./components/pages/VehicleManager";
 import LoginPage from "./components/pages/LoginPage";
 import EditVehicle from "./components/pages/EditVehicle";
+import AddVehiclePage from "./components/pages/AddVehiclePage";
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path='/' element={isAuthenticated ? <Home /> : <LoginPage />}></Route>
         <Route path='/vehicle-manager' element={isAuthenticated ? <VehicleManager /> : <LoginPage />}></Route>
         <Route path='/vehicle-manager/edit-vehicle/:id' element={isAuthenticated ? <EditVehicle /> : <LoginPage />}></Route>
+        <Route path='/vehicle-manager/add-vehicle' element={isAuthenticated ? <AddVehiclePage /> : <LoginPage />}></Route>
       </Routes>
     </Router>
   )
