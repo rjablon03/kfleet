@@ -1,4 +1,4 @@
-import { GeoPoint, DocumentData } from "firebase/firestore";
+import { GeoPoint } from "firebase/firestore";
 
 export class Project {
     id: string;
