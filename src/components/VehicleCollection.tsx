@@ -53,7 +53,7 @@ function VehicleCollection(props: CollectionInfo) {
             <h2 className="text-4xl font-bold border-b-4 border-b-sky-600 w-fit">{props.title}</h2>
             <div className="vehicle-cards flex flex-wrap gap-5">
                 {vehicles.map((vehicle) => (
-                    <VehicleCard key={vehicle.id} year={vehicle.year} make={vehicle.make} model={vehicle.model} availability={props.title === "Available"}/>
+                    <VehicleCard key={vehicle.id} vehicleId={vehicle.id} year={vehicle.year} make={vehicle.make} model={vehicle.model} availability={props.title === "Available"}/>
                 ))}
             </div>
         </div>
