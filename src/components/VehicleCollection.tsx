@@ -17,7 +17,8 @@ function VehicleCollection(props: CollectionInfo) {
         const fetchVehicles = async () => {
             const vehiclesQuery = query(
                 collection(db, 'vehicles'),
-                where("available", "==", available)
+                where("available", "==", available),
+                where("needsRepair", "==", false)
             );
     
             const querySnapshot = await getDocs(vehiclesQuery)

@@ -65,7 +65,6 @@ function VehicleTable() {
 
     return(
         <>
-            <Link to='/vehicle-manager/add-vehicle' className='block text-gray-500 border-2 border-gray-500 border-dotted text-center rounded-md hover:bg-sky-700 hover:text-white hover:border-0 hover:p-0.5'>Add Vehicle</Link>
             <table className="border-separate w-[95%] m-auto text-left border-spacing-y-4">
                 <thead>
                     <tr className="">
@@ -101,6 +100,7 @@ function VehicleTable() {
                 </tbody>
             </table>
             {removeVehicles.length > 0 && (<button className="delete-vehicles bg-red-500 p-1 rounded-md text-white font-bold mt-4" onClick={deleteVehicles}>Delete Vehicles</button>)}
+            <Link to='/vehicle-manager/add-vehicle' className='block text-gray-500 border-2 border-gray-500 border-dotted text-center rounded-md hover:bg-sky-700 hover:text-white hover:border-0 hover:p-0.5'>Add Vehicle</Link>
         </>
     )
 }

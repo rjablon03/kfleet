@@ -1,7 +1,3 @@
 body {
     background-color: #eceaea;
 }
-
-label, input, select {
-    display: block;
-}

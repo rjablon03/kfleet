@@ -90,7 +90,7 @@ function EditVehicle() {
 
                     <div className="flex justify-end space-x-3 mt-6">
                         <button type="button" onClick={handleClose} className="px-4 py-2 border rounded">Cancel</button>
-                        <button type="submit" className="px-4 py-2 bg-sky-700 text-white rounded">Edit</button>
+                        <button type="submit" className="px-4 py-2 bg-sky-700 text-white rounded">Save</button>
                     </div>
                 </form>
             </div>
