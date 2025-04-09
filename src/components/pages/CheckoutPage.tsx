@@ -69,7 +69,8 @@ function CheckoutPage() {
             endDate: formData.get('endDate'),
             description: formData.get('description'),
             miles: formData.get('miles'),
-            open: true
+            open: true,
+            endingMileage: null
         };
         
         if (projectValue && projectValue !== "") {
@@ -126,7 +127,7 @@ function CheckoutPage() {
                     {tripDetails}
 
                     <div>
-                        <label htmlFor="miles">Length (in miles)</label>
+                        <label htmlFor="miles">Estimated Trip Length (in miles)</label>
                         <input type="number" name="miles" id="miles" className="mt-1 inline w-full border rounded-md p-2" required />
                     </div>
 
