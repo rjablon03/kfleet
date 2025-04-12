@@ -15,8 +15,9 @@ function Header() {
                 const employeeDocRef = doc(db, 'employees', user.sub);
                 const employeeSnap = await getDoc(employeeDocRef);
                 const data = employeeSnap.data()
-                setEmployeeRole(data.role)
+                setEmployeeRole(data?.role || "")
             } else {
+                setEmployeeRole("")
                 console.error("Error: User ID is undefined");
             }
         }
