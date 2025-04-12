@@ -52,7 +52,7 @@ function VehicleCollection(props: CollectionInfo) {
     return (
         <div className="collection-container w-[85%] my-5">
             <h2 className="text-4xl font-bold border-b-4 border-b-sky-600 w-fit">{props.title}</h2>
-            <div className="vehicle-cards flex flex-wrap gap-5">
+            <div className="vehicle-cards md:flex md:flex-wrap md:justify-between lg:grid lg:grid-cols-3 lg:place-items-center">
                 {vehicles.map((vehicle) => (
                     <VehicleCard key={vehicle.id} vehicleId={vehicle.id} year={vehicle.year} make={vehicle.make} model={vehicle.model} availability={vehicle.available}/>
                 ))}

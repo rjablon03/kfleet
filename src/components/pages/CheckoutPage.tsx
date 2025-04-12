@@ -46,7 +46,13 @@ function CheckoutPage() {
                 ))}
             </select>
         </div>
-    } 
+    } else {
+        tripDetails = 
+        <div>
+            <label htmlFor="description">Description</label>
+            <input type="text" name="description" id="description" className="mt-1 inline w-full border rounded-md p-2" maxLength={30} required />
+        </div>
+    }
 
     if (!id) {
         return (<h1>There was an error loading this page</h1>)
@@ -129,11 +135,6 @@ function CheckoutPage() {
                     <div>
                         <label htmlFor="miles">Estimated Trip Length (in miles)</label>
                         <input type="number" name="miles" id="miles" className="mt-1 inline w-full border rounded-md p-2" required />
-                    </div>
-
-                    <div>
-                        <label htmlFor="description">Description</label>
-                        <input type="text" name="description" id="description" className="mt-1 inline w-full border rounded-md p-2" required />
                     </div>
 
                     <div className="flex justify-end space-x-3">

@@ -50,27 +50,32 @@ function MyTrips() {
         <>
             <Header />
             <div className="table-container w-[90%] bg-white shadow-xl p-4 rounded-md mx-auto my-5">
-                <table>
+                {checkouts.length !== 0 ? (
+                    <table className="border-separate w-[95%] m-auto text-left border-spacing-y-4 border-spacing-x-1 lg:border-spacing-x-3 xl:border-spacing-x-11">
                     <thead>
                         <tr>
-                            <th>Vehicle Info</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Reason</th>
+                            <th className="lg:text-xl">Vehicle Info</th>
+                            <th className="lg:text-xl">Start Date</th>
+                            <th className="lg:text-xl">End Date</th>
+                            <th className="lg:text-xl">Reason</th>
                         </tr>
                     </thead>
                     <tbody>
                         {checkouts.map((item) => (
                             <tr key={item.id}>
-                                <td>{item.vehicleId}</td>
-                                <td>{format(item.startDate, "MMM d, yyyy h:mm a")}</td>
-                                <td>{format(item.endDate, "MMM d, yyyy h:mm a")}</td>
-                                <td>{item.project}</td>
-                                <td><Link to={'/my-trips/' + item.id}>Check In</Link></td>
+                                <td className="text-xs lg:text-base">{item.vehicleId}</td>
+                                <td className="text-xs lg:text-base">{format(item.startDate, "MMM d, yyyy h:mm a")}</td>
+                                <td className="text-xs lg:text-base">{format(item.endDate, "MMM d, yyyy h:mm a")}</td>
+                                <td className="text-xs lg:text-base">{item.project ? item.project : item.description}</td>
+                                <td className="text-xs lg:text-base"><Link to={'/my-trips/' + item.id} className='bg-sky-700 text-white font-bold p-2 rounded-xl'>Check In</Link></td>
+                                <td className="text-xs lg:text-base"><Link to="/" className='bg-sky-700 text-white font-bold p-2 rounded-xl'>Edit</Link></td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
+                ) : (
+                    <h1 className="text-5xl font-bold text-center">No Trips Found</h1>
+                )}
             </div>
         </>
     )
