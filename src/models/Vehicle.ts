@@ -5,7 +5,6 @@ export class Vehicle {
     year: number;
     bodyStyle: string;
     mileage: number;
-    milesPerYear: number;
     fuelType: string;
     needsRepair: boolean;
     available: boolean;
@@ -17,7 +16,6 @@ export class Vehicle {
         year: number,
         bodyStyle: string,
         mileage: number,
-        milesPerYear: number,
         fuelType: string,
         needsRepair: boolean,
         available: boolean
@@ -28,7 +26,6 @@ export class Vehicle {
         this.year = year;
         this.bodyStyle = bodyStyle;
         this.mileage = mileage;
-        this.milesPerYear = milesPerYear;
         this.fuelType = fuelType;
         this.needsRepair = needsRepair;
         this.available = available;

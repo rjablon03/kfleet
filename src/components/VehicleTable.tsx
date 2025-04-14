@@ -22,7 +22,6 @@ function VehicleTable() {
                         data.year,
                         data.bodyStyle,
                         data.mileage,
-                        data.milesPerYear,
                         data.fuelType,
                         data.needsRepair,
                         data.available

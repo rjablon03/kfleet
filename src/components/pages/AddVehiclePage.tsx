@@ -1,9 +1,81 @@
 import { db } from '../../config/firebase';
 import { setDoc, doc } from "firebase/firestore";
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 function AddVehiclePage() {
     const navigate = useNavigate()
+    const [year, setYear] = useState(0)
+    const [makes, setMakes] = useState<{ name: string; makeId: string }[]>([])
+    const [make, setMake] = useState<string>("")
+    const [model, setModel] = useState<string>("")
+    const [models, setModels] = useState([])
+    const carbonMakesURL = import.meta.env.VITE_CARBON_MAKES_ENDPOINT
+    const carbonKey = import.meta.env.VITE_CARBON_INTERFACE
+
+    useEffect(() => {
+        const fetchGetMakes = async () => {
+            fetch(carbonMakesURL, {
+                method: "GET",
+                headers: {
+                    'Authorization': `Bearer ${carbonKey}`,
+                    'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch')
+                    }
+                    return response.json()
+                })
+                .then(data => {
+                    const makeArray: { name: string; makeId: string }[] = []
+
+                    data.forEach((i: { data: { attributes: { name: any; }; id: any; }; }) => {
+                        makeArray.push({name: i.data.attributes.name, makeId: i.data.id})
+                    })
+
+                    setMakes(makeArray)
+                })
+                .catch(error => {
+                    console.log('Error', error)
+                })
+            
+            }
+        fetchGetMakes()
+    }, [])
+
+    useEffect(() => {
+        if (!make) return;
+        
+        
+        fetch(`https://www.carboninterface.com/api/v1/vehicle_makes/${make}/vehicle_models`, {
+            headers: {
+                'Authorization': `Bearer ${carbonKey}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Could not fetch models")
+            }
+            return response.json()
+        })
+        .then(data => {
+            const modelArray = data
+                .filter((modelItem: any) => modelItem.data.attributes.year === year)
+                .map((modelItem: any) => ({
+                    name: modelItem.data.attributes.name,
+                    modelId: modelItem.data.id,
+                    year: modelItem.data.attributes.year
+                }));
+            setModels(modelArray);
+        })
+        .catch(err => {
+            console.log("Model fetch error:", err);
+        });
+    }, [make]);
+    
 
     const createVehicle = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -22,13 +94,19 @@ function AddVehiclePage() {
         }
 
         try {
+            const makeRaw = formData.get('make') as string
+            const [carMakeId, carMakeName] = makeRaw.split(',')
+            const modelRaw = formData.get('model') as string;
+            const [modelId, modelName, modelYear] = modelRaw.split(',');
+
             await setDoc(doc(db, "vehicles", makeId()), {
-                make: formData.get('make'),
-                model: formData.get('model'),
-                year: Number(formData.get('year')),
+                make: carMakeName,
+                carMakeId: carMakeId,
+                model: modelName,
+                modelId: modelId,
+                year: modelYear,
                 bodyStyle: formData.get('bodyStyle'),
                 mileage: Number(formData.get('mileage')),
-                milesPerYear: 0,
                 fuelType: formData.get('fuelType'),
                 needsRepair: formData.get('needsRepair') === 'yes',
                 available: true
@@ -50,18 +128,28 @@ function AddVehiclePage() {
                 <h1 className="text-xl font-bold mb-4">Create Vehicle</h1>
                     <form onSubmit={createVehicle} className="space-y-3">
                         <div>
+                            <label htmlFor="year" className="block text-sm font-medium">Year</label>
+                            <input type="number" name="year" id="year" className="mt-1 block w-full border rounded-md p-2" onChange={e => setYear(Number(e.target.value))} required />
+                        </div>
+
+                        <div>
                             <label htmlFor="make" className="block text-sm font-medium">Make</label>
-                            <input type="text" name="make" id="make" className="mt-1 block w-full border rounded-md p-2" required />
+                            <select name="make" id="make" className="mt-1 block w-full border rounded-md p-2" onChange={(e) => setMake(e.target.value.split(',')[0])} required>
+                                <option value="">--Please choose an option--</option>
+                                {makes.map((make) => (
+                                    <option key={make.makeId} value={[make.makeId, make.name]}>{make.name}</option>
+                                ))}
+                            </select>
                         </div>
 
                         <div>
                             <label htmlFor="model" className="block text-sm font-medium">Model</label>
-                            <input type="text" name="model" id="model" className="mt-1 block w-full border rounded-md p-2" required />
-                        </div>
-
-                        <div>
-                            <label htmlFor="year" className="block text-sm font-medium">Year</label>
-                            <input type="number" name="year" id="year" className="mt-1 block w-full border rounded-md p-2" required />
+                            <select name="model" id="model" className="mt-1 block w-full border rounded-md p-2" value={model} onChange={(e) => setModel(e.target.value)} required>
+                                <option value="">--Please choose a model--</option>
+                                {models.map((m: any) => (
+                                    <option key={m.modelId} value={`${m.id},${m.name},${m.year}`}>{`${m.year} - ${m.name}`}</option>
+                                ))}
+                            </select>
                         </div>
 
                         <div>

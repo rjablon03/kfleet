@@ -24,7 +24,6 @@ function EditVehicle() {
             year: Number(formData.get('year')),
             bodyStyle: formData.get('bodyStyle'),
             mileage: Number(formData.get('mileage')),
-            milesPerYear: 0,
             fuelType: formData.get('fuelType'),
             needsRepair: formData.get('needsRepair') === 'yes',
             available: true
