@@ -34,7 +34,6 @@ function VehicleCollection(props: CollectionInfo) {
                     year: data.year,
                     bodyStyle: data.bodyStyle,
                     mileage: data.mileage,
-                    milesPerYear: data.milesPerYear,
                     fuelType: data.fuelType,
                     needsRepair: data.needsRepair,
                     available: data.available
