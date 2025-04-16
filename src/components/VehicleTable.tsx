@@ -19,6 +19,7 @@ function VehicleTable() {
                         doc.id, 
                         data.make,
                         data.model,
+                        data.modelId,
                         data.year,
                         data.bodyStyle,
                         data.mileage,
