@@ -1,16 +1,22 @@
 import { db } from "../../config/firebase"
 import { useAuth0 } from "@auth0/auth0-react"
 import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router"
+import { useNavigate, useSearchParams } from "react-router"
 import { getDocs, collection, setDoc, doc } from "firebase/firestore"
 import { Project } from "../../models/Project"
 
 function CheckoutPage() {
-    const { id } = useParams()
+    const [searchParams] = useSearchParams()
+    const vehicleId = searchParams.get('vehicleId')
+    const vehicleModelId = searchParams.get('vehicleModelId')
     const { user } = useAuth0()
     const navigate = useNavigate()
     const [projects, setProjects] = useState<Project[]>([])
     const [project, setProject] = useState(false)
+    const [carbonEstimate, setCarbonEstimate] = useState("")
+    const [distance, setDistance] = useState(0)
+    const carbonKey = import.meta.env.VITE_CARBON_INTERFACE
+    const estimateURL = import.meta.env.VITE_CARBON_ESTIMATE_URL
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -33,6 +39,32 @@ function CheckoutPage() {
         fetchProjects()
     }, [])
 
+    useEffect(() => {
+        const fetchEstimate = async () => {
+            if (distance <= 0) { return };
+            if (!vehicleModelId) { return };
+
+            const response = await fetch(estimateURL, {
+                method: "POST",
+                headers: {
+                    'Authorization': `Bearer ${carbonKey}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    type: "vehicle",
+                    distance_unit: "mi",
+                    distance_value: distance,
+                    vehicle_model_id: vehicleModelId
+                })
+            })
+
+            const data = await response.json()
+            setCarbonEstimate(`${data.data.attributes.carbon_lb} lbs`)
+        }
+
+        fetchEstimate()
+    }, [distance, vehicleModelId, estimateURL, carbonKey])
+
     let tripDetails;
 
     if (project) {
@@ -54,10 +86,6 @@ function CheckoutPage() {
         </div>
     }
 
-    if (!id) {
-        return (<h1>There was an error loading this page</h1>)
-    }
-
     if (!user) {
         return(<h1>Not authenticated</h1>)
     }
@@ -70,13 +98,13 @@ function CheckoutPage() {
         
         const checkoutData = {
             userId: user.sub,
-            vehicleId: id,
+            vehicleId: vehicleId,
             startDate: formData.get('startDate'),
             endDate: formData.get('endDate'),
             description: formData.get('description'),
             miles: formData.get('miles'),
             open: true,
-            endingMileage: null
+            carbonEstimate: carbonEstimate
         };
         
         if (projectValue && projectValue !== "") {
@@ -134,7 +162,7 @@ function CheckoutPage() {
 
                     <div>
                         <label htmlFor="miles">Estimated Trip Length (in miles)</label>
-                        <input type="number" name="miles" id="miles" className="mt-1 inline w-full border rounded-md p-2" required />
+                        <input type="number" name="miles" id="miles" className="mt-1 inline w-full border rounded-md p-2" onChange={(e) => setDistance(Number(e.target.value))} required />
                     </div>
 
                     <div className="flex justify-end space-x-3">

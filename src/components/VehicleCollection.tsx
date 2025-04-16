@@ -30,6 +30,7 @@ function VehicleCollection(props: CollectionInfo) {
                 const newVehicle: Vehicle = {
                     id: doc.id,
                     make: data.make,
+                    modelId: data.modelId,
                     model: data.model,
                     year: data.year,
                     bodyStyle: data.bodyStyle,
@@ -53,7 +54,7 @@ function VehicleCollection(props: CollectionInfo) {
             <h2 className="text-4xl font-bold border-b-4 border-b-sky-600 w-fit">{props.title}</h2>
             <div className="vehicle-cards md:flex md:flex-wrap md:justify-between lg:grid lg:grid-cols-3 lg:place-items-center">
                 {vehicles.map((vehicle) => (
-                    <VehicleCard key={vehicle.id} vehicleId={vehicle.id} year={vehicle.year} make={vehicle.make} model={vehicle.model} availability={vehicle.available}/>
+                    <VehicleCard key={vehicle.id} vehicleId={vehicle.id} vehicleModelId={vehicle.modelId} year={vehicle.year} make={vehicle.make} model={vehicle.model} availability={vehicle.available}/>
                 ))}
             </div>
         </div>

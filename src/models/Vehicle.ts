@@ -1,6 +1,7 @@
 export class Vehicle {
     id: string;
     make: string;
+    modelId: string;
     model: string;
     year: number;
     bodyStyle: string;
@@ -12,6 +13,7 @@ export class Vehicle {
     constructor(
         id: string,
         make: string,
+        modelId: string,
         model: string,
         year: number,
         bodyStyle: string,
@@ -22,6 +24,7 @@ export class Vehicle {
     ) {
         this.id = id;
         this.make = make;
+        this.modelId = modelId
         this.model = model;
         this.year = year;
         this.bodyStyle = bodyStyle;

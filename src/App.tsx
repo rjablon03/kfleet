@@ -21,7 +21,7 @@ function App() {
         <Route path='/vehicle-manager' element={isAuthenticated ? <VehicleManager /> : <LoginPage />}></Route>
         <Route path='/vehicle-manager/edit-vehicle/:id' element={isAuthenticated ? <EditVehicle /> : <LoginPage />}></Route>
         <Route path='/vehicle-manager/add-vehicle' element={isAuthenticated ? <AddVehiclePage /> : <LoginPage />}></Route>
-        <Route path='/checkout/:id' element={isAuthenticated ? <CheckoutPage /> : <LoginPage />}></Route>
+        <Route path='/checkout' element={isAuthenticated ? <CheckoutPage /> : <LoginPage />}></Route>
         <Route path='/my-trips' element={isAuthenticated ? <MyTrips /> : <LoginPage />}></Route>
         <Route path='/my-trips/:id' element={isAuthenticated ? <CheckinPage /> : <LoginPage />} />
         <Route path='/analytics' element={isAuthenticated ? <Analytics /> : <LoginPage />}></Route>

@@ -147,7 +147,7 @@ function AddVehiclePage() {
                             <select name="model" id="model" className="mt-1 block w-full border rounded-md p-2" value={model} onChange={(e) => setModel(e.target.value)} required>
                                 <option value="">--Please choose a model--</option>
                                 {models.map((m: any) => (
-                                    <option key={m.modelId} value={`${m.id},${m.name},${m.year}`}>{`${m.year} - ${m.name}`}</option>
+                                    <option key={m.modelId} value={`${m.modelId},${m.name},${m.year}`}>{`${m.year} - ${m.name}`}</option>
                                 ))}
                             </select>
                         </div>

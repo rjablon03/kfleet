@@ -32,8 +32,10 @@ function MyTrips() {
                         data.startDate, 
                         data.endDate, 
                         data.miles, 
+                        data.carbonEstimate,
                         data.description, 
-                        data.project))
+                        data.project,
+                    ))
                 })
 
                 setCheckouts(tripList)
@@ -57,6 +59,7 @@ function MyTrips() {
                             <th className="lg:text-xl">Vehicle Info</th>
                             <th className="lg:text-xl">Start Date</th>
                             <th className="lg:text-xl">End Date</th>
+                            <th className="lg:text-xl">Carbon Output (lbs)</th>
                             <th className="lg:text-xl">Reason</th>
                         </tr>
                     </thead>
@@ -66,6 +69,7 @@ function MyTrips() {
                                 <td className="text-xs lg:text-base">{item.vehicleId}</td>
                                 <td className="text-xs lg:text-base">{format(item.startDate, "MMM d, yyyy h:mm a")}</td>
                                 <td className="text-xs lg:text-base">{format(item.endDate, "MMM d, yyyy h:mm a")}</td>
+                                <td className="text-xs lg:text-base">{item.carbonEstimate}</td>
                                 <td className="text-xs lg:text-base">{item.project ? item.project : item.description}</td>
                                 <td className="text-xs lg:text-base"><Link to={'/my-trips/' + item.id} className='bg-sky-700 text-white font-bold p-2 rounded-xl'>Check In</Link></td>
                                 <td className="text-xs lg:text-base"><Link to="/" className='bg-sky-700 text-white font-bold p-2 rounded-xl'>Edit</Link></td>

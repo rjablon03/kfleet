@@ -5,6 +5,7 @@ export class Checkout {
     startDate: Date
     endDate: Date
     miles: number
+    carbonEstimate: string
     description: string
     project?: string
 
@@ -15,8 +16,9 @@ export class Checkout {
         startDate: Date,
         endDate: Date,
         miles: number,
+        carbonEstimate: string,
         description: string,
-        project?: string,
+        project?: string
     ) {
         this.id = id,
         this.userId = userId
@@ -24,7 +26,8 @@ export class Checkout {
         this.startDate = startDate
         this.endDate = endDate
         this.miles = miles
+        this.carbonEstimate = carbonEstimate;
         this.description = description
-        this.project = project
+        this.project = project;
     }
 }
