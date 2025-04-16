@@ -36,7 +36,7 @@ function CheckinPage() {
         try {
             await updateDoc(checkoutRef, {
                 open: false,
-                endingMileage: endingMileage
+                checkedIn: true
             })
 
             await updateDoc(vehicleRef, {

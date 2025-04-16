@@ -99,12 +99,13 @@ function CheckoutPage() {
         const checkoutData = {
             userId: user.sub,
             vehicleId: vehicleId,
-            startDate: formData.get('startDate'),
-            endDate: formData.get('endDate'),
+            startDate: new Date(formData.get('startDate') as string).toISOString(),
+            endDate: new Date(formData.get('endDate') as string).toISOString(),
             description: formData.get('description'),
             miles: formData.get('miles'),
             open: true,
-            carbonEstimate: carbonEstimate
+            carbonEstimate: carbonEstimate,
+            checkedIn: false
         };
         
         if (projectValue && projectValue !== "") {
