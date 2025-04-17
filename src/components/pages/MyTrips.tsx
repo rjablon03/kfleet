@@ -30,6 +30,7 @@ function MyTrips() {
                         doc.id, 
                         data.userId, 
                         data.vehicleId, 
+                        data.vehicleInfo,
                         data.startDate, 
                         data.endDate, 
                         data.miles, 
@@ -95,7 +96,7 @@ function MyTrips() {
                             <tr key={item.id}>
                                 <td>
                                 <input type="checkbox" onChange={(event) => prepRemoval(event, item.id)}/></td>
-                                <td className="text-xs lg:text-base">{item.vehicleId}</td>
+                                <td className="text-xs lg:text-base">{`${item.vehicleInfo[0]} ${item.vehicleInfo[1]} ${item.vehicleInfo[2]}`}</td>
                                 <td className="text-xs lg:text-base">{format(item.startDate, "MMM d, yyyy h:mm a")}</td>
                                 <td className="text-xs lg:text-base">{format(item.endDate, "MMM d, yyyy h:mm a")}</td>
                                 <td className="text-xs lg:text-base">{item.carbonEstimate}</td>

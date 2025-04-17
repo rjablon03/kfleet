@@ -2,13 +2,14 @@ import { db } from "../../config/firebase"
 import { useAuth0 } from "@auth0/auth0-react"
 import { useEffect, useState } from "react"
 import { useNavigate, useSearchParams } from "react-router"
-import { getDocs, collection, setDoc, doc } from "firebase/firestore"
+import { getDocs, collection, setDoc, doc, getDoc  } from "firebase/firestore"
 import { Project } from "../../models/Project"
 
 function CheckoutPage() {
     const [searchParams] = useSearchParams()
     const vehicleId = searchParams.get('vehicleId')
     const vehicleModelId = searchParams.get('vehicleModelId')
+    const [vehicleInfo, setVehicleInfo] = useState<[number, string, string]>([0, "", ""])
     const { user } = useAuth0()
     const navigate = useNavigate()
     const [projects, setProjects] = useState<Project[]>([])
@@ -17,6 +18,26 @@ function CheckoutPage() {
     const [distance, setDistance] = useState(0)
     const carbonKey = import.meta.env.VITE_CARBON_INTERFACE
     const estimateURL = import.meta.env.VITE_CARBON_ESTIMATE_URL
+    const now = new Date();
+
+    useEffect(() => {
+        const getVehicle = async () => {
+            try {
+                if (vehicleId) {
+                    const ref = doc(db, 'vehicles', vehicleId)
+                    const docSnap = await getDoc(ref)
+                    const data = docSnap.data()
+                    if (data) {
+                        setVehicleInfo([data.year, data.make, data.model])
+                    }
+                }
+            } catch (err) {
+                console.log(err)
+            }
+        }
+
+        getVehicle()
+    }, [])
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -95,17 +116,21 @@ function CheckoutPage() {
         const formData = new FormData(event.target as HTMLFormElement);
         
         const projectValue = formData.get('project');
+
+        const startDate = new Date(formData.get('startDate') as string).toISOString();
+        const endDate = new Date(formData.get('endDate') as string).toISOString();
         
         const checkoutData = {
             userId: user.sub,
             vehicleId: vehicleId,
-            startDate: new Date(formData.get('startDate') as string).toISOString(),
-            endDate: new Date(formData.get('endDate') as string).toISOString(),
+            vehicleInfo: vehicleInfo,
+            startDate: startDate,
+            endDate: endDate,
             description: formData.get('description'),
             miles: formData.get('miles'),
             open: true,
             carbonEstimate: carbonEstimate,
-            checkedIn: false
+            checkedIn: false,
         };
         
         if (projectValue && projectValue !== "") {
@@ -126,6 +151,15 @@ function CheckoutPage() {
     
         try {
             await setDoc(doc(db, 'checkouts', makeId()), checkoutData);
+
+            if (now >= new Date(startDate)) {
+                if (vehicleId) {
+                    await setDoc(doc(db, 'vehicles', vehicleId), { available: false }, { merge: true });
+                } else {
+                    console.error("Vehicle ID is null");
+                }
+            }
+
             navigate('/my-trips');
         }
         catch (err) {
@@ -141,7 +175,7 @@ function CheckoutPage() {
         <div className="flex justify-center items-center min-h-screen">
             <div className="check-out-container bg-white w-full max-w-md p-4 shadow-2xl rounded-2xl">
                 <h1 className="text-4xl font-bold">Checkout Form</h1>
-                <h2 className="text-2xl"><span className="font-bold">For: </span>YEAR MAKE MODEL</h2>
+                <h2 className="text-2xl"><span className="font-bold">For: </span>{`${vehicleInfo[0]} ${vehicleInfo[1]} ${vehicleInfo[2]}`}</h2>
 
                 <form onSubmit={checkout} className="checkout-form [&>div]:my-5">
                     <div>

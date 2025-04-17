@@ -40,7 +40,8 @@ function CheckinPage() {
             })
 
             await updateDoc(vehicleRef, {
-                mileage: endingMileage
+                mileage: endingMileage,
+                available: true
             })
 
             navigate('/my-trips')
