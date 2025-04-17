@@ -18,7 +18,7 @@ function MyTrips() {
                 const checkoutQuery = query(
                     collection(db, 'checkouts'),
                     where("userId", "==", user?.sub),
-                    where("open", "==", true)
+                    where("checkedIn", "==", false)
                 )
                 const querySnapshot = await getDocs(checkoutQuery)
 
