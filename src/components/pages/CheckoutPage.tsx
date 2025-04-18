@@ -1,9 +1,11 @@
 import { db } from "../../config/firebase"
 import { useAuth0 } from "@auth0/auth0-react"
-import { useEffect, useState } from "react"
+import { ReactElement, useEffect, useState } from "react"
 import { useNavigate, useSearchParams } from "react-router"
-import { getDocs, collection, setDoc, doc, getDoc  } from "firebase/firestore"
+import { getDocs, collection, setDoc, doc, getDoc, query, where, orderBy  } from "firebase/firestore"
 import { Project } from "../../models/Project"
+import { Checkout } from "../../models/Checkout"
+import CheckoutSchedule from "../CheckoutSchedule"
 
 function CheckoutPage() {
     const [searchParams] = useSearchParams()
@@ -14,11 +16,14 @@ function CheckoutPage() {
     const navigate = useNavigate()
     const [projects, setProjects] = useState<Project[]>([])
     const [project, setProject] = useState(false)
+    const [checkouts, setCheckouts] = useState<Checkout[]>([]);
     const [carbonEstimate, setCarbonEstimate] = useState("")
     const [distance, setDistance] = useState(0)
     const carbonKey = import.meta.env.VITE_CARBON_INTERFACE
     const estimateURL = import.meta.env.VITE_CARBON_ESTIMATE_URL
     const now = new Date();
+    const [error, setError] = useState("")
+    const errorFlag: ReactElement = <h3 className="text-red-500 text-xl font-bold">{error}</h3>
 
     useEffect(() => {
         const getVehicle = async () => {
@@ -86,6 +91,44 @@ function CheckoutPage() {
         fetchEstimate()
     }, [distance, vehicleModelId, estimateURL, carbonKey])
 
+    useEffect(() => {
+        const fetchCheckouts = async () => {
+            try {
+                const checkoutQuery = query(
+                    collection(db, 'checkouts'),
+                    where("vehicleId", "==", vehicleId),
+                    orderBy("startDate", "desc")
+                )
+
+                const querySnapshot = await getDocs(checkoutQuery)
+
+                const tripList: Checkout[] = []
+                
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data()
+                    tripList.push(new Checkout(
+                        doc.id, 
+                        data.userId, 
+                        data.vehicleId, 
+                        data.vehicleInfo,
+                        data.startDate, 
+                        data.endDate, 
+                        data.miles, 
+                        data.carbonEstimate,
+                        data.description, 
+                        data.project,
+                    ))
+                })
+
+                setCheckouts(tripList)
+            } catch (err) {
+                console.log(err)
+            }
+        }
+
+        fetchCheckouts()
+    }, [])
+
     let tripDetails;
 
     if (project) {
@@ -119,6 +162,23 @@ function CheckoutPage() {
 
         const startDate = new Date(formData.get('startDate') as string).toISOString();
         const endDate = new Date(formData.get('endDate') as string).toISOString();
+        const startDateObj = new Date(startDate)
+        const endDateObj = new Date(endDate)
+
+        const isOverlapping = (start1: Date, end1: Date, start2: Date, end2: Date) => {
+            return start1 < end2 && end1 > start2;
+        };
+          
+        for (const checkout of checkouts) {
+            const existingStart = new Date(checkout.startDate);
+            const existingEnd = new Date(checkout.endDate);
+            console.log(`Start Date OBJ: ${startDateObj}\nEnd Date OBJ: ${endDateObj}\nCheckout Start: ${existingStart}\n Checkout End: ${existingEnd}`)
+        
+            if (isOverlapping(startDateObj, endDateObj, existingStart, existingEnd)) {
+                setError("Vehicle cannot be checked out during an existing checkout!!!");
+                return;
+            }
+        }
         
         const checkoutData = {
             userId: user.sub,
@@ -152,7 +212,7 @@ function CheckoutPage() {
         try {
             await setDoc(doc(db, 'checkouts', makeId()), checkoutData);
 
-            if (now >= new Date(startDate)) {
+            if (now >= startDateObj) {
                 if (vehicleId) {
                     await setDoc(doc(db, 'vehicles', vehicleId), { available: false }, { merge: true });
                 } else {
@@ -176,6 +236,7 @@ function CheckoutPage() {
             <div className="check-out-container bg-white w-full max-w-md p-4 shadow-2xl rounded-2xl">
                 <h1 className="text-4xl font-bold">Checkout Form</h1>
                 <h2 className="text-2xl"><span className="font-bold">For: </span>{`${vehicleInfo[0]} ${vehicleInfo[1]} ${vehicleInfo[2]}`}</h2>
+                {errorFlag}
 
                 <form onSubmit={checkout} className="checkout-form [&>div]:my-5">
                     <div>
@@ -206,6 +267,7 @@ function CheckoutPage() {
                     </div>
                 </form>
             </div>
+            <CheckoutSchedule checkouts={checkouts}/>
         </div>
     )
 }

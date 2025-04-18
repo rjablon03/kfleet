@@ -28,7 +28,7 @@ function Header() {
     }, [user]);
 
     return (
-        <header className="flex items-center justify-between sm:bg-red-500 md:bg-sky-700 text-white p-4 sticky top-0 z-50">
+        <header className="flex items-center justify-between bg-sky-700 text-white p-4 sticky top-0 z-50">
             <Link to="/">
                 <h1 className="text-3xl font-bold">K-fleet</h1>
             </Link>
