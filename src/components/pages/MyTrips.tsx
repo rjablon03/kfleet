@@ -102,7 +102,7 @@ function MyTrips() {
                                 <td className="text-xs lg:text-base">{item.carbonEstimate}</td>
                                 <td className="text-xs lg:text-base">{item.project ? item.project : item.description}</td>
                                 <td className="text-xs lg:text-base"><Link to={'/my-trips/' + item.id} className='bg-sky-700 text-white font-bold p-2 rounded-xl'>Check In</Link></td>
-                                <td className="text-xs lg:text-base"><Link to="/" className='bg-sky-700 text-white font-bold p-2 rounded-xl'>Edit</Link></td>
+                                <td className="text-xs lg:text-base"><Link to={`/checkout/edit?vehicleId=${item.vehicleId}&checkoutId=${item.id}`} className='bg-sky-700 text-white font-bold p-2 rounded-xl'>Edit</Link></td>
                             </tr>
                         ))}
                     </tbody>

@@ -64,11 +64,6 @@ function CheckinPage() {
                         <label htmlFor="endingMileage">Ending Mileage</label>
                         <input type="number" name="endingMileage" id="endingMileage" className="mt-1 inline w-full border rounded-md p-2" required />
                     </div>
-
-                    <div>
-                        <label htmlFor="notes">Vehcile Notes (or N/A)</label>
-                        <input type="text" name="notes" id="notes" className="mt-1 inline w-full border rounded-md p-2" required />
-                    </div>
                     
                     <div className="flex justify-end space-x-3">
                         <button type="button" onClick={handleClose} className="px-4 py-2 border rounded">Cancel</button>

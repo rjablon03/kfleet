@@ -8,6 +8,7 @@ export class Checkout {
     miles: number
     carbonEstimate: string
     description: string
+    checkedIn: boolean
     project?: string
 
     constructor(
@@ -20,6 +21,7 @@ export class Checkout {
         miles: number,
         carbonEstimate: string,
         description: string,
+        checkedIn: boolean,
         project?: string
     ) {
         this.id = id,
@@ -31,6 +33,7 @@ export class Checkout {
         this.miles = miles
         this.carbonEstimate = carbonEstimate;
         this.description = description
+        this.checkedIn = checkedIn
         this.project = project;
     }
 }

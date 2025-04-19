@@ -97,7 +97,7 @@ function CheckoutPage() {
                 const checkoutQuery = query(
                     collection(db, 'checkouts'),
                     where("vehicleId", "==", vehicleId),
-                    orderBy("startDate", "desc")
+                    orderBy("startDate", "asc")
                 )
 
                 const querySnapshot = await getDocs(checkoutQuery)
@@ -115,11 +115,12 @@ function CheckoutPage() {
                         data.endDate, 
                         data.miles, 
                         data.carbonEstimate,
-                        data.description, 
+                        data.description,
+                        data.checkedIn, 
                         data.project,
                     ))
                 })
-
+                console.log(tripList)
                 setCheckouts(tripList)
             } catch (err) {
                 console.log(err)
