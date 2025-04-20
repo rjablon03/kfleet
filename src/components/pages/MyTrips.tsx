@@ -99,7 +99,7 @@ function MyTrips() {
                                 <td className="text-xs lg:text-base">{`${item.vehicleInfo[0]} ${item.vehicleInfo[1]} ${item.vehicleInfo[2]}`}</td>
                                 <td className="text-xs lg:text-base">{format(item.startDate, "MMM d, yyyy h:mm a")}</td>
                                 <td className="text-xs lg:text-base">{format(item.endDate, "MMM d, yyyy h:mm a")}</td>
-                                <td className="text-xs lg:text-base">{item.carbonEstimate}</td>
+                                <td className="text-xs lg:text-base">{`${item.carbonEstimate} lbs`}</td>
                                 <td className="text-xs lg:text-base">{item.project ? item.project : item.description}</td>
                                 <td className="text-xs lg:text-base"><Link to={'/my-trips/' + item.id} className='bg-sky-700 text-white font-bold p-2 rounded-xl'>Check In</Link></td>
                                 <td className="text-xs lg:text-base"><Link to={`/checkout/edit?vehicleId=${item.vehicleId}&checkoutId=${item.id}`} className='bg-sky-700 text-white font-bold p-2 rounded-xl'>Edit</Link></td>

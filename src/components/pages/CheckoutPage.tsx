@@ -17,7 +17,7 @@ function CheckoutPage() {
     const [projects, setProjects] = useState<Project[]>([])
     const [project, setProject] = useState(false)
     const [checkouts, setCheckouts] = useState<Checkout[]>([]);
-    const [carbonEstimate, setCarbonEstimate] = useState("")
+    const [carbonEstimate, setCarbonEstimate] = useState(0)
     const [distance, setDistance] = useState(0)
     const carbonKey = import.meta.env.VITE_CARBON_INTERFACE
     const estimateURL = import.meta.env.VITE_CARBON_ESTIMATE_URL
@@ -85,7 +85,7 @@ function CheckoutPage() {
             })
 
             const data = await response.json()
-            setCarbonEstimate(`${data.data.attributes.carbon_lb} lbs`)
+            setCarbonEstimate(data.data.attributes.carbon_lb)
         }
 
         fetchEstimate()
@@ -120,7 +120,6 @@ function CheckoutPage() {
                         data.project,
                     ))
                 })
-                console.log(tripList)
                 setCheckouts(tripList)
             } catch (err) {
                 console.log(err)
@@ -188,7 +187,7 @@ function CheckoutPage() {
             startDate: startDate,
             endDate: endDate,
             description: formData.get('description'),
-            miles: formData.get('miles'),
+            miles: Number(formData.get('miles')),
             open: true,
             carbonEstimate: carbonEstimate,
             checkedIn: false,
