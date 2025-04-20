@@ -10,7 +10,6 @@ import { Link } from "react-router";
 function MyTrips() {
     const { user } = useAuth0()
     const [checkouts, setCheckouts] = useState<Checkout[]>([]);
-    const [removeCheckouts, setRemoveCheckouts] = useState<string[]>([]);
 
     useEffect(() => {
         const fetchTrips = async () => {
@@ -36,7 +35,8 @@ function MyTrips() {
                         data.miles, 
                         data.carbonEstimate,
                         data.description, 
-                        data.project,
+                        data.checkedIn,
+                        data.project
                     ))
                 })
 
@@ -50,67 +50,42 @@ function MyTrips() {
         fetchTrips()
     }, [])
 
-    const prepRemoval = (event: React.ChangeEvent<HTMLInputElement>, vehicleId: string) => {
-        if (event.target.checked === true) {
-            setRemoveCheckouts(prev => [...prev, vehicleId]);
-        }
-        else {
-            setRemoveCheckouts(prev => prev.filter(id => id !== vehicleId))
+    const deleteTrip = async (checkoutId: string) => {
+        try {
+            const updatedCheckouts = checkouts.filter((checkout) => checkoutId !== checkout.id)
+            setCheckouts(updatedCheckouts)
+            await deleteDoc(doc(db, 'checkouts', checkoutId))
+        } catch (err) {
+            console.log(err)
+            return
         }
     }
-
-    const deleteCheckouts = async () => {
-            if (removeCheckouts.length > 0) {
-                try {
-                    await Promise.all(
-                        removeCheckouts.map(async (checkoutId) => {
-                            await deleteDoc(doc(db, 'checkouts', checkoutId));
-                        })
-                    );
-                    setCheckouts(prev => prev.filter(checkout => !removeCheckouts.includes(checkout.id)));
-                    setRemoveCheckouts([]);
-                } catch (error) {
-                    console.error("Error deleting vehicles: ", error);
-                }
-            }
-        };
 
     return (
         <>
             <Header />
-            <div className="table-container w-[90%] bg-white shadow-xl p-4 rounded-md mx-auto my-5">
+            <div>
                 {checkouts.length !== 0 ? (
-                    <table className="border-separate w-[95%] m-auto text-left border-spacing-y-4 border-spacing-x-1 lg:border-spacing-x-3 xl:border-spacing-x-11">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th className="lg:text-xl">Vehicle Info</th>
-                            <th className="lg:text-xl">Start Date</th>
-                            <th className="lg:text-xl">End Date</th>
-                            <th className="lg:text-xl">Carbon Output (lbs)</th>
-                            <th className="lg:text-xl">Reason</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                    <div className="lg:grid lg:grid-cols-3">
                         {checkouts.map((item) => (
-                            <tr key={item.id}>
-                                <td>
-                                <input type="checkbox" onChange={(event) => prepRemoval(event, item.id)}/></td>
-                                <td className="text-xs lg:text-base">{`${item.vehicleInfo[0]} ${item.vehicleInfo[1]} ${item.vehicleInfo[2]}`}</td>
-                                <td className="text-xs lg:text-base">{format(item.startDate, "MMM d, yyyy h:mm a")}</td>
-                                <td className="text-xs lg:text-base">{format(item.endDate, "MMM d, yyyy h:mm a")}</td>
-                                <td className="text-xs lg:text-base">{`${item.carbonEstimate} lbs`}</td>
-                                <td className="text-xs lg:text-base">{item.project ? item.project : item.description}</td>
-                                <td className="text-xs lg:text-base"><Link to={'/my-trips/' + item.id} className='bg-sky-700 text-white font-bold p-2 rounded-xl'>Check In</Link></td>
-                                <td className="text-xs lg:text-base"><Link to={`/checkout/edit?vehicleId=${item.vehicleId}&checkoutId=${item.id}`} className='bg-sky-700 text-white font-bold p-2 rounded-xl'>Edit</Link></td>
-                            </tr>
+                            <div key={item.id} className="bg-white my-5 w-[80%] mx-auto p-2 shadow-2xl rounded-2xl flex flex-col justify-between md:w-[45%] lg:w-[80%]">
+                                <div>
+                                    <p className="font-bold text-2xl">{`${item.vehicleInfo[0]} ${item.vehicleInfo[1]} ${item.vehicleInfo[2]}`}</p>
+                                    <p className="text-2xl"><span className="font-bold">From: </span>{format(item.startDate, "MMM d, yyyy h:mm a")}</p>
+                                    <p className="text-2xl"><span className="font-bold">To: </span>{format(item.endDate, "MMM d, yyyy h:mm a")}</p>
+                                    <p className="text-2xl"><span className="font-bold">Carbon Output: </span>{`${item.carbonEstimate} lbs`}</p>
+                                    <p className="text-2xl"><span className="font-bold">Reason: </span>{item.project ? item.project : item.description}</p>
+                                </div>
+                                <div className="flex justify-center gap-5 my-2">
+                                    <p className="bg-sky-700 text-white font-bold p-2 rounded-xl"><Link to={'/my-trips/' + item.id} className=''>Check In</Link></p>
+                                    <button className="bg-red-500 text-white font-bold p-2 rounded-xl" onClick={() => deleteTrip(item.id)}>Delete</button>
+                                </div>
+                            </div>
                         ))}
-                    </tbody>
-                </table>
+                    </div>
                 ) : (
-                    <h1 className="text-5xl font-bold text-center">No Trips Found</h1>
+                    <h1 className="text-4xl">No Trips Found</h1>
                 )}
-                {removeCheckouts.length > 0 && (<button className="delete-checkouts bg-red-500 p-1 rounded-md text-white font-bold my-2" onClick={deleteCheckouts}>Delete</button>)}
             </div>
         </>
     )
