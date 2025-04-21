@@ -12,7 +12,7 @@ function CheckoutSchedule(props: CheckoutData) {
     }
 
     return (
-        <div className={filteredCheckouts.length > 0 ? "bg-white ml-3 p-3 rounded-2xl shadow-2xl" : "hidden"}>
+        <div className={filteredCheckouts.length > 0 ? "bg-white ml-3 p-3 rounded-2xl shadow-xl" : "hidden"}>
             <h1 className="text-2xl font-bold">Vehicle Schedule</h1>
             {filteredCheckouts
                 .map((checkout) => (

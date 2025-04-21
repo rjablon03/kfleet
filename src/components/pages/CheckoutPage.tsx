@@ -232,8 +232,9 @@ function CheckoutPage() {
     }
 
     return (
-        <div className="flex justify-center items-center min-h-screen">
-            <div className="check-out-container bg-white w-full max-w-md p-4 shadow-2xl rounded-2xl">
+        <div className="flex flex-col justify-center items-center min-h-screen">
+            <CheckoutSchedule checkouts={checkouts}/>
+            <div className="check-out-container bg-white w-full max-w-md p-4 shadow-2xl rounded-2xl my-5">
                 <h1 className="text-4xl font-bold">Checkout Form</h1>
                 <h2 className="text-2xl"><span className="font-bold">For: </span>{`${vehicleInfo[0]} ${vehicleInfo[1]} ${vehicleInfo[2]}`}</h2>
                 {errorFlag}
@@ -267,7 +268,6 @@ function CheckoutPage() {
                     </div>
                 </form>
             </div>
-            <CheckoutSchedule checkouts={checkouts}/>
         </div>
     )
 }

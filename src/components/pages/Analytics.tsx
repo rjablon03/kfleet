@@ -3,6 +3,7 @@ import Header from "../Header"
 import { db } from "../../config/firebase"
 import { useEffect, useState } from "react"
 import { Vehicle } from "../../models/Vehicle"
+import { Link } from "react-router"
 
 function Analytics() {
     const [vehicles, setVehicles] = useState<Vehicle[]>([])
@@ -74,29 +75,36 @@ function Analytics() {
 
     return (
         <>
-            <Header />
-            <div className="w-[90%] bg-white shadow-xl p-4 rounded-md mx-auto my-5">
-                <h1 className="text-4xl font-bold border-b-4 border-b-sky-600 w-fit">Analytics</h1>
-                <div className="summary flex justify-evenly text-center my-5">
-                    <div className="total-carbon">
-                        <h2 className="text-2xl font-bold">Total Carbon Output</h2>
-                        <p className="text-2xl">{`${totalCarbon} lbs`}</p>
+            <div className="lg:hidden">
+                <h1 className="text-4xl font-bold">Please view on desktop</h1>
+                <Link to="/" className="text-2xl text-sky-700 underline">Back home</Link>
+            </div>
+            
+            <div className="hidden lg:block">
+                <Header />
+                <div className="w-[90%] bg-white shadow-xl p-4 rounded-md mx-auto my-5">
+                    <h1 className="text-4xl font-bold border-b-4 border-b-sky-600 w-fit">Analytics</h1>
+                    <div className="summary flex justify-evenly text-center my-5">
+                        <div className="total-carbon">
+                            <h2 className="text-2xl font-bold">Total Carbon Output</h2>
+                            <p className="text-2xl">{`${totalCarbon} lbs`}</p>
+                        </div>
+                        <div className="avg-carbon">
+                            <h2 className="text-2xl font-bold">Average Carbon Output</h2>
+                            <p className="text-2xl">{`${averageCarbon} lbs`}</p>
+                        </div>
+                        <div className="total-miles">
+                            <h2 className="text-2xl font-bold">Total Miles</h2>
+                            <p className="text-2xl">{`${miles} miles`}</p>
+                        </div>
+                        <div className="ev-miles">
+                            <h2 className="text-2xl font-bold">Total EV Miles</h2>
+                            <p className="text-2xl">{`${evMiles} miles`}</p>
+                        </div>
                     </div>
-                    <div className="avg-carbon">
-                        <h2 className="text-2xl font-bold">Average Carbon Output</h2>
-                        <p className="text-2xl">{`${averageCarbon} lbs`}</p>
-                    </div>
-                    <div className="total-miles">
-                        <h2 className="text-2xl font-bold">Total Miles</h2>
-                        <p className="text-2xl">{`${miles} miles`}</p>
-                    </div>
-                    <div className="ev-miles">
-                        <h2 className="text-2xl font-bold">Total EV Miles</h2>
-                        <p className="text-2xl">{`${evMiles} miles`}</p>
-                    </div>
-                </div>
-                <div className="top-five-cars">
+                    <div className="top-five-cars">
 
+                    </div>
                 </div>
             </div>
         </>
