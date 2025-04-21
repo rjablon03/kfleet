@@ -31,7 +31,7 @@ function CheckinPage() {
         const vehicleDoc = await getDoc(vehicleRef)
 
         if (endingMileage <= vehicleDoc.get('mileage')) {
-            setError("Mileage wrongy")
+            setError("Mileage cannot be less than or equal to previous mileage!")
             setErrorFlag(<h3 className="text-red-500 text-md font-bold">{error}</h3>)
             return
         }
